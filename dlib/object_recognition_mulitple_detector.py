@@ -16,8 +16,8 @@ import pickle
 ############### training dlib for object/face detection #################
 #########################################################################
 
-images_folder = "images/objects"
-objects = ['Axe Dark Temptation']
+images_folder = "images/"
+objects = ['dairy milk', 'head n shoulder', 'himalaya', 'mint', 'mobile', 'sanitizer']
 
 options = dlib.simple_object_detector_training_options()
 options.add_left_right_image_flips = False
@@ -27,27 +27,26 @@ options.be_verbose = True
 
 for i in objects:
     print("Training model for {0}...".format(i))
-    training_xml_path = images_folder+"/Axe Dark Temptation/training/compressed/training.xml"#"{0}/training/training.xml".format(i))
+    training_xml_path = os.path.join(images_folder, "{0}\{0}.xml".format(i))
     #testing_xml_path = os.path.join(images_folder, "testing.xml")
-    output_path = images_folder+"/Axe Dark Temptation/Axe Dark Temptation.svm"#"{0}/{1}.svm".format(i,i))
+    output_path = "{0}.svm".format(i)
     dlib.train_simple_object_detector(training_xml_path, output_path, options)
     
-    print("")  # Print blank line to create gap from previous output
     print("Training accuracy: {}".format(
-        dlib.test_simple_object_detector(training_xml_path, os.path.join(images_folder, "{0}/{1}.svm".format(i,i)))))
+        dlib.test_simple_object_detector(training_xml_path, output_path)))
+    print("")  # Print blank line to create gap from previous output
     #print("Testing accuracy: {}".format(
-        #dlib.test_simple_object_detector(testing_xml_path, os.path.join(images_folder, "{0}/{1}.svm".format(i,i)))))
+        #dlib.test_simple_object_detector(testing_xml_path, output_path)))
     
 #####################################################
 ############ object detection from images ###########
 #####################################################
+print("Showing detections on the images in the objects folder...")
 for i in objects:
-    detector = dlib.simple_object_detector(os.path.join(images_folder, "{0}/{1}.svm".format(i,i)))
-    #detector = dlib.fhog_object_detector(os.path.join(images_folder, "{0}/{1}.svm".format(i,i)))
-    print("Showing detections on the images in the objects folder...")
+    detector = dlib.simple_object_detector("{0}.svm".format(i))
+    #detector = dlib.fhog_object_detector("{0}.svm".format(i))
     win = dlib.image_window()
-    for f in glob.glob(os.path.join(images_folder, "{0}/training/*.jpg".format(i))):
-        #f="images/objects\Axe Dark Temptation\IMG_20181210_112945.jpg"
+    for f in glob.glob(os.path.join(images_folder, "{0}/*.jpg".format(i))):
         print("Processing file: {}".format(f))
         img = dlib.load_rgb_image(f)
         #dets = dlib.fhog_object_detector.run(detector, img)[0]
@@ -66,7 +65,7 @@ for i in objects:
 ############## object detection from live video with single detector #############
 ######################################################################################
 
-detector_url = "images/objects/Axe Dark Temptation/Axe Dark Temptation.svm"
+detector_url = "mobile.svm"
 detector = dlib.simple_object_detector(detector_url)
 #detector = dlib.fhog_object_detector(detector_url)
 #image = dlib.load_rgb_image(images_folder + '/impact mints.jpg')
@@ -117,12 +116,16 @@ cv2.destroyAllWindows()
 #################################################################################
 ################### training for object recognition with mulitple detectors ##############
 ##################################################################################3
-def trainObjects():
+def trainObjects(images_folder):
+    folders = os.listdir(images_folder)
+    folders.remove('extras')
     detectors = []
-    for xml in glob.glob(os.path.join(images_folder, "*.xml")):
-        dlib.train_simple_object_detector(xml, "{0}.svm".format(xml.split('\\')[1].split('.')[0]), options)
+    for folder in folders:
+        xml = os.path.join(images_folder, "{0}\{0}.xml".format(folder))
+        #print("{0}.svm".format(folder))
+        dlib.train_simple_object_detector(xml, "{0}.svm".format(folder), options)
         # save all detectors as list
-        detectors.append("{0}.svm".format(xml.split('\\')[1].split('.')[0]))
+        detectors.append("{0}.svm".format(folder))
         
         
     # Next, suppose you have trained multiple detectors and you want to run them
@@ -132,11 +135,12 @@ def trainObjects():
         detectorsModels.append(dlib.fhog_object_detector(detector))
     
     # testing multiple detectors with image
-    image = dlib.load_rgb_image(images_folder + '/head-and-shoulder-best-oily-hair-shampoo.jpg')
+    image = dlib.load_rgb_image(images_folder + '/head n shoulder/head-and-shoulder-best-oily-hair-shampoo.jpg')
     [boxes, confidences, detector_idxs] = dlib.fhog_object_detector.run_multiple(detectorsModels, image, upsample_num_times=1, adjust_threshold=0.5)
     for i in range(len(boxes)):
         print("detector {} found box {} with confidence {}.".format(detector_idxs[i], boxes[i], confidences[i]))
     return detectorsModels, detectors
+
 
 #############################################
 ############## testing with live video ###########
@@ -188,7 +192,7 @@ def recognizeObject():
     cv2.destroyAllWindows()
 
         
-detectorsModels, detectors = trainObjects()
+detectorsModels, detectors = trainObjects(images_folder)
 
 # save models
 pickle_out = open("detectorsModels.pickle","wb")
@@ -200,10 +204,10 @@ pickle.dump(detectors, pickle_out)
 pickle_out.close()
 
 # load models
-pickle_in = open("C:/Users/abhinav.jhanwar/Documents/workspace-sts-3.8.4.RELEASE/Python_Tutorials/src/MachineLearning/AlgosImplemented/Computer Vision/Facial Recognition/dlib/detectorsModels.pickle","rb")
+pickle_in = open("detectorsModels.pickle","rb")
 detectorsModels = pickle.load(pickle_in)
 
-pickle_in = open("C:/Users/abhinav.jhanwar/Documents/workspace-sts-3.8.4.RELEASE/Python_Tutorials/src/MachineLearning/AlgosImplemented/Computer Vision/Facial Recognition/dlib/detectors.pickle","rb")
+pickle_in = open("detectors.pickle","rb")
 detectors = pickle.load(pickle_in)
 
 # start recognition

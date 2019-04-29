@@ -39,7 +39,7 @@ options.C = 5 # Specify penalty parameter, too large - overfit, too small - unde
 options.num_threads = 4
 options.be_verbose = True
 
-training_xml_path = os.path.join(images_folder, "objects/training.xml")
+training_xml_path = os.path.join(images_folder, "training.xml")
 #testing_xml_path = os.path.join(images_folder, "testing.xml")
 # This function does the actual training.  It will save the final detector to
 # detector.svm.  The input is an XML file that lists the images in the training
@@ -152,18 +152,19 @@ cv2.destroyAllWindows()
 
 
 
-
-
-
 #################################################################################
 ################### training for object recognition with mulitple detectors ##############
 ##################################################################################3
-def trainObjects():
+def trainObjects(images_folder):
+    folders = os.listdir(images_folder)
+    folders.remove('extras')
     detectors = []
-    for xml in glob.glob(os.path.join(images_folder, "*.xml")):
-        dlib.train_simple_object_detector(xml, "{0}.svm".format(xml.split('\\')[1].split('.')[0]), options)
+    for folder in folders:
+        xml = os.path.join(images_folder, "{0}\{0}.xml".format(folder))
+        #print("{0}.svm".format(folder))
+        dlib.train_simple_object_detector(xml, "{0}.svm".format(folder), options)
         # save all detectors as list
-        detectors.append("{0}.svm".format(xml.split('\\')[1].split('.')[0]))
+        detectors.append("{0}.svm".format(folder))
         
         
     # Next, suppose you have trained multiple detectors and you want to run them
@@ -173,7 +174,7 @@ def trainObjects():
         detectorsModels.append(dlib.fhog_object_detector(detector))
     
     # testing multiple detectors with image
-    image = dlib.load_rgb_image(images_folder + '/head-and-shoulder-best-oily-hair-shampoo.jpg')
+    image = dlib.load_rgb_image(images_folder + '/head n shoulder/head-and-shoulder-best-oily-hair-shampoo.jpg')
     [boxes, confidences, detector_idxs] = dlib.fhog_object_detector.run_multiple(detectorsModels, image, upsample_num_times=1, adjust_threshold=0.5)
     for i in range(len(boxes)):
         print("detector {} found box {} with confidence {}.".format(detector_idxs[i], boxes[i], confidences[i]))
@@ -229,7 +230,7 @@ def recognizeObject():
     cv2.destroyAllWindows()
 
         
-detectorsModels, detectors = trainObjects()
+detectorsModels, detectors = trainObjects(images_folder)
 
 # save models
 pickle_out = open("detectorsModels.pickle","wb")
