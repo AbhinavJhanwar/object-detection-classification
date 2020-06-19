@@ -19,4 +19,7 @@ Instructions to run-
 * confidence_threshold = 'threshold to be used for detection'
 * classes = 'set classes as per model used'
 
-2) run python object_detection.py
+2) run object_detection.py
+``` 
+python object_detection.py
+```
