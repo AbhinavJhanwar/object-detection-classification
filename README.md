@@ -9,4 +9,5 @@ I have implemented following object/person detection models here namely-
 * **Dataset trained on**- PASCAL VOC and COCO datasets
 * **Input image size**- 300x300, 512x512
 * **Optimizer**- sgd in original implementation and adam in the current implementation
-* **Anchor boxes**- 6 default boxes
+* **Anchor boxes**- 4/6 default boxes per cell
+* **loss function**- confidence_loss (logloss) + alpha*location_loss (smooth L1 loss)
