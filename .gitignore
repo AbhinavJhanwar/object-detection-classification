@@ -1,0 +1,10 @@
+/frcnn/data/
+# models
+*.pickle
+*.h5
+*.hdf5
+
+# pycache
+*.pyc
+*.png
+*.jpg

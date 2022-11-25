@@ -5,8 +5,12 @@ for more info check out https://github.com/pierluigiferrari/ssd_keras<br>
 
 install the required libraries-
 ```
+conda install -c anaconda keras-gpu #==2.2.4
 pip install -r requirements.txt
 ```
+opencv-contrib-python
+
+Download dataset from- http://host.robots.ox.ac.uk/pascal/VOC/
 
 Instructions to run-
 1) modify config.conf file as following-
