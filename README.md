@@ -20,6 +20,6 @@ I have implemented following object/person detection models here namely-
 * **Architecture/base network**-  Based on ZF/VGG16 layers + FC layers
 * **Dataset trained on**- PASCAL VOC 2007, 2012, and MS COCO
 * **Input image size**- 1000 x 600
-* **Optimizer**- 
-* **Anchor boxes**- image.png9 (3 aspect ratio * 3 scaled) anchors, for pascal 3 scales of box area 128², 256², 512² and 3 aspect ratios of 1:1, 1:2 and 2:1
+* **Optimizer**- sgd
+* **Anchor boxes**- 9 (3 aspect ratio * 3 scaled) anchors, for pascal 3 scales of box area 128², 256², 512² and 3 aspect ratios of 1:1, 1:2 and 2:1
 * **loss function**- log loss for classification in RPN, absolute error for regression in RPN
