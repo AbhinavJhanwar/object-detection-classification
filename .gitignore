@@ -1,6 +1,8 @@
+# data
 /frcnn/data/
+
 # models
-*.pickle
+class_mapping.pickle
 *.h5
 *.hdf5
 

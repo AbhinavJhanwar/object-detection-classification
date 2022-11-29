@@ -8,7 +8,6 @@ install the required libraries-
 conda install -c anaconda keras-gpu #==2.2.4
 pip install -r requirements.txt
 ```
-opencv-contrib-python
 
 Download dataset from- http://host.robots.ox.ac.uk/pascal/VOC/
 
@@ -21,7 +20,7 @@ Instructions to run-
 * output_dir = 'directory to save detected video/image'
 * weights_path = 'weights file that is being used for object detection'
 * confidence_threshold = 'threshold to be used for detection'
-* classes = 'set classes as per model used'
+* classes = 'path to classes.pickle'
 
 2) run object_detection.py
 ``` 
