@@ -26,3 +26,5 @@ Instructions to run-
 ``` 
 python object_detection.py
 ```
+
+For downloading data of open images, use code data_generator/downloading_open_images.ipynb file.
