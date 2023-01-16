@@ -1,5 +1,7 @@
 # data
 /frcnn/data/
+/yolo/dataset/
+/yolo/open_images_v4/
 
 # models
 class_mapping.pickle

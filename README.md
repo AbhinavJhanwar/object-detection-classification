@@ -23,3 +23,5 @@ I have implemented following object/person detection models here namely-
 * **Optimizer**- sgd
 * **Anchor boxes**- 9 (3 aspect ratio * 3 scaled) anchors, for pascal 3 scales of box area 128², 256², 512² and 3 aspect ratios of 1:1, 1:2 and 2:1
 * **loss function**- log loss for classification in RPN, absolute error for regression in RPN
+
+# 3. YOLO V7
