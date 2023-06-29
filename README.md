@@ -1,6 +1,8 @@
 I have implemented following object/person detection models here namely-
 1) SSD
 2) FRCNN
+3) YOLO V7
+4) Zero Shot Detection
 
 # 1. SSD
 * **Paper**- https://arxiv.org/pdf/1512.02325.pdf
@@ -25,3 +27,23 @@ I have implemented following object/person detection models here namely-
 * **loss function**- log loss for classification in RPN, absolute error for regression in RPN
 
 # 3. YOLO V7
+* **Paper**- 
+* **Repo**- 
+* **Methodology/technique**- 
+* **Architecture/base network**- 
+* **Dataset trained on**- 
+* **Input image size**- 
+* **Optimizer**- 
+* **Anchor boxes**- 
+* **loss function**- 
+
+# 4. Zero Shot Detection
+* **Paper**- 
+* **Repo**- 
+* **Methodology/technique**- 
+* **Architecture/base network**- 
+* **Dataset trained on**- 
+* **Input image size**- 
+* **Optimizer**- 
+* **Anchor boxes**- 
+* **loss function**- 

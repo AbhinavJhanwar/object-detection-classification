@@ -1,7 +1,5 @@
 # data
 /frcnn/data/
-/yolo/dataset/
-/yolo/open_images_v4/
 
 # models
 class_mapping.pickle
@@ -12,6 +10,3 @@ class_mapping.pickle
 *.pyc
 *.png
 *.jpg
-tensorflow_api/pretrained_models/
-.gitignore
-tensorflow_api/training_output/

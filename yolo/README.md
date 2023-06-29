@@ -18,8 +18,10 @@ gc.collect()
 wget "https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7.pt"
 
 sample run>><br>
+```
 !gdown https://drive.google.com/u/1/uc?id=1pmlMhaOw9oUqIH7OZP8d0dBKVOLqAYcy&export=download<br>
 !unzip /content/yolov7/data.zip -d dataset
+```
 
 update data.yaml for corresponding image folders, check download_open_images_v4.ipynb for sample
 
@@ -51,3 +53,34 @@ python train.py --name open_images_v4 --batch 16 --workers 8 --img 640 --epochs 
 ## evaluation
 python detect.py --weights runs/train/open_images_v4/weights/best.pt --conf 0.5 --source open_images_v4/test/images
 
+Final dataset folder looks like below before get into YOLOv7 training,
+```
+├── yolov7
+## └── train
+####└── images (folder including all training images)
+####└── labels (folder including all training labels)
+## └── test
+####└── images (folder including all testing images)
+####└── labels (folder including all testing labels)
+## └── valid
+####└── images (folder including all valid images)
+####└── labels (folder including all valid labels)
+```
+
+Create Custom Config File for Training
+We must now develop a customized configuration file. (Be sure to specify the proper directory), as the training process will be entirely dependent on that file.
+Create a file with the name "custom.yaml" in the (yolov7/data) folder. In that file, paste the code below. Set the correct path to the dataset folder, alter the number of classes and their names, and then save it.
+
+Make a file that specifies the training configuration. In custom.yaml file, write the following:
+
+```
+# path for images
+train: /object-detection-classification/yolo/open_images_v4/train/images
+val: /object-detection-classification/yolo/open_images_v4/valid/images
+test: /object-detection-classification/yolo/open_images_v4/test/images
+
+# number of classes
+nc: 5
+# list of all classes in sorted order
+names: ['Tortoise', 'Container', 'Magpie', 'Sea turtle', 'Football']
+```
