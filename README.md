@@ -27,19 +27,20 @@ I have implemented following object/person detection models here namely-
 * **loss function**- log loss for classification in RPN, absolute error for regression in RPN
 
 # 3. YOLO V7
-* **Paper**- 
-* **Repo**- 
+* **Paper**- https://arxiv.org/abs/2207.02696
+* **Repo**- https://github.com/WongKinYiu/yolov7
 * **Methodology/technique**- 
-* **Architecture/base network**- 
-* **Dataset trained on**- 
-* **Input image size**- 
-* **Optimizer**- 
-* **Anchor boxes**- 
-* **loss function**- 
+yolov3: dividing whole image into segments of fixed size then using various size of bounding boxes (3 per feature cell) and pass it through the network to classify. Here the difference is that this technique is applied not just on last conv layer but at multiple (3) levels (hence making total prediction per cell to 3x3 = 9) to handle scaling and then in the end nms (non maximum suppression) is used to get final bounding box of objects. Instead of softmax, sigmoid activation function is used, in this way a single bounding box may indicate multiple classes. In yolo, total no. of bounding boxes in a image detected or trained are also set to maximum value of 20.<br>
+* **Architecture/base network**- DarkNet (contains residual blocks and upsampling), Extended-ELAN (E-ELAN) with reparameterized convolution (RepConv)
+* **Dataset trained on**- MS COCO
+* **Input image size**- 640*640
+* **Optimizer**- Adam (v3)
+* **Anchor boxes**- 3 default boxes per cell from 3 different layers (v3)
+* **loss function**- confidence_loss (binary cross entropy) + alpha*location_loss (squared error loss) (v3)
 
 # 4. Zero Shot Detection
 * **Paper**- 
-* **Repo**- 
+* **Repo**- https://github.com/openai/CLIP
 * **Methodology/technique**- 
 * **Architecture/base network**- 
 * **Dataset trained on**- 
