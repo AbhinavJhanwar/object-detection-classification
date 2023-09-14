@@ -1,5 +1,5 @@
 # %%
-from transformers import pipeline
+from transformers import pipeline 
 # More models in the model hub.
 # https://huggingface.co/models?pipeline_tag=zero-shot-image-classification&sort=downloads
 # https://www.pinecone.io/learn/zero-shot-image-classification-clip/
@@ -13,6 +13,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 import matplotlib.pyplot as plt
 
 from typing import Union
+import os
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 def get_image_class(image:Union[str, list], model_name:str, labels:list, method:str):
     """ 
@@ -20,10 +22,10 @@ def get_image_class(image:Union[str, list], model_name:str, labels:list, method:
     method2 - using text and image encoders
 
     Args:
-        image (Union[str, list]): _description_
-        model_name (str): _description_
-        labels (list): _description_
-        method (str): _description_
+        image (Union[str, list]): local address of image
+        model_name (str): choose from "openai/clip-vit-large-patch14-336" or "openai/clip-vit-base-patch32"
+        labels (list): list of various labels
+        method (str): whether to run on method1 or method2
 
     Returns:
         _type_: returns dictionary of label and confidence
@@ -104,41 +106,68 @@ model_name = "openai/clip-vit-large-patch14-336"
 model_name = "openai/clip-vit-base-patch32"
 #model_name = "openai/clip-vit-large-patch14"
 
-image_to_classify = "images/test10.jpg"
+image_to_classify = "image classification images/comparison/3.jpg"
+image_to_classify = "image classification images/composition/6.jpg"
+image_to_classify = "image classification images/dimensions/5.jpg"
+image_to_classify = "image classification images/features_benefits/15.jpg"
+image_to_classify = "image classification images/instructions/3.jpg"
+image_to_classify = "image classification images/lifestyle/33.jpg"
 
-labels_for_classification =  [
-                              "lifestyle",
-                              #"toothpaste",
-                              "office",
-                              "working desk",
-                              "utility",
-                              "process",
-                              "some product",
-                              "product measurement",
-                              "how to use the product",
-                              "features of a product",
-                              "potential usecase",
-                              "comparison chart",
-                              "some instructions",
-                              "people using a product",
-                              "some scenary",
-                              "outside park or area",
-                              "people",
-                              "house indoor",
-                              "study room",
-                              "drawing room",
-                              "Kitchen",
-                              "gym",
-                              "living room",
-                              "product size specifications",
-                              "product scale",
-                              "dimension of some object/product",
-                              #"toothbrush"
-                              ]
+classification_map = {'lifestyle':['lifestyle', 'cafe', 'bar', 'pub', 'kitchen', 'natural scenary', 
+                                   'park', 'garden', 'cabin', 'corner of a room',
+                                   'study room', 'gym', 'drawing room', 'bedroom', 'office',
+                                   'sitting area', 'indoors', 'living room', 
+                                   'people using product', 'outdoor', 
+                                   'a boy is smiling while using a product', 
+                                   'a girl is smiling while using a product',
+                                   'restaurant', 'girl is smiling with something in her hand', 
+                                   'boy is smiling with something in his hand', 
+                                   'people enjoying something', 'people eating', 
+                                   'people playing', 'hand holding some product'], 
+                      'dimensions':['scale of product', 'size specifications of product', 
+                                    'measurement of product', 'height and width of product', 
+                                    'dimensions of product'],
+                      'features/benefits':['usage benefits of product',
+                                            'product key features',
+                                            'steps, benefits of usage of product',
+                                            'serving details benefits of product'],
+                      'instructions':['steps to serve product',
+                                      'how to cook product', 
+                                      'how to ready product to use',  
+                                      'how to apply product to use', 
+                                      'directions to use product'],
+                      'comparison':['comparison of two products', 
+                                    'old versus new'],
+                      'composition':['composition', 'ingredients', 'nutrition facts'],
+                      'usage':['usage']
+                      }
+
+image_to_classify = "image classification images/comparison/3.jpg"
+image_to_classify = "image classification images/composition/6.jpg"
+image_to_classify = "image classification images/dimensions/5.jpg"
+image_to_classify = "image classification images/features_benefits/15.jpg"
+image_to_classify = "image classification images/instructions/3.jpg"
+image_to_classify = "image classification images/lifestyle/33.jpg"
+
+labels_for_classification = []
+for items in classification_map.items():
+    labels_for_classification += items[1]
 
 results = get_image_class(image_to_classify, model_name, labels_for_classification, 'method1')
 print('method 1', *results, sep='\n')
+for dict_key in classification_map.keys():
+    for result in results:
+        if result['label'] in classification_map[dict_key]:
+            result['new_label']= dict_key
+            if result['score']>0.1:
+                print('final label:', dict_key)
 
 results = get_image_class(image_to_classify, model_name, labels_for_classification, 'method2')
 print('method 2', *results, sep='\n')
+for dict_key in classification_map.keys():
+    for result in results:
+        if result['label'] in classification_map[dict_key]:
+            result['new_label']= dict_key
+            if result['score']>0.1:
+                print('final label:', dict_key)
 
