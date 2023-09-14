@@ -28,3 +28,11 @@ python object_detection.py
 ```
 
 For downloading data of open images, use code data_generator/downloading_open_images.ipynb file.
+
+3) running tensorflow based frcnn (trained on openImages v4 data and vgg architecture
+```
+python tensorflow_based_frcnn.py
+```
+
+References- 
+* https://www.tensorflow.org/hub/tutorials/tf2_object_detection#more_models
