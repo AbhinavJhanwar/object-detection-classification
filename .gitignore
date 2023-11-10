@@ -10,3 +10,4 @@ class_mapping.pickle
 *.pyc
 *.png
 *.jpg
+*.pth
