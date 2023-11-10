@@ -1,5 +1,5 @@
 ## TAG2TEXT- 
-https://arxiv.org/pdf/2303.05657.pdf (https://github.com/xinyu1205/recognize-anything)
+https://arxiv.org/pdf/2303.05657.pdf
 <br>It consists of 3 modules-
 1. Image tagging- using encoder generates image features then generates tags using decoder
 2. Image tag text generation (image captioning)- using given tags from module 1 and image features from the encoder, it utilizes transformer (encoder and decoder) architecture to generate image caption or image text
