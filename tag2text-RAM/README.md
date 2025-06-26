@@ -12,11 +12,10 @@ At inference, CLIP performs zero-shot classification by comparing an image's emb
 https://arxiv.org/pdf/2303.05657.pdf
 <br>It consists of 3 modules-
 1. Image tagging- it uses a Vision Transformer (ViT) based image encoder pre-trained using DINO architecture on ImageNet or Swin Transformer model trained on ImageNet to generates image encoding then generates tags (semantically rich text) for the image using a transfomer based decoder.
-2. Image tag text generation (image captioning)- using given tags embedding and image encoding, it utilizes transformer (encoder and decoder) architecture to generate image caption or image text, which is the final output. At the time of training it uses tag parsed from the given text using text semantics while at the time of inference these tags are provided by module 1 and are matched with image to generate final image description.
-3. Image text alignment- determines whether given text (tags) and generated text caption and image are aligned or not in a semantic space.
+2. Image tag text generation (image captioning)- using given tags embedding and image encoding, it utilizes transformer (encoder and decoder) architecture to generate image caption or image text, which is the final output. At the time of training it uses tag parsed from the given text using text semantics while at the time of inference these tags are provided by module 1 or by user to generate more relevant output and are combined with image encoding to generate final image text.
+3. Image text alignment- used during training to determine whether generated image text caption and image encoding are aligned or not in a semantic space and accordingly passes feedback to optimize the image tag text generation in module 2.
 Overall using image tags from module 1 and image encoding, it generates image caption in module 2 and then using module 3 evaluates the result by calculating Image-Text Contrastive Loss (ITC) i.e. cosine similarity and Image-Text Matching Loss (ITM).<br>
 <br>The image features also interact with tags by the cross-attention layers in the module 1 & 2.
-<br>At the time of inference along with the tags from module 1, user can input his own tags to get relevant caption.
 ![image](https://github.com/user-attachments/assets/389789f8-1eb3-44ec-adba-710d23d04d46)
 ![image](https://github.com/user-attachments/assets/a1cc00e7-936c-446e-8610-9f2b251dd61b)
 
@@ -25,7 +24,7 @@ Overall using image tags from module 1 and image encoding, it generates image ca
 ## RAM (Recognize Anything Model)- 
 https://arxiv.org/pdf/2306.03514.pdf
 <br>Improvements over Tag2Text-<br>
-Open Vocabulary Recognition- Instead of just using tag embeddings a separate encoder is used to generate semantically rich text and that embedding is used which facilitates generalization to previously unseen categories in training stage. The encoder-decoder used for text generation are 12-layer transformers, and the tag recognition decoder is a 2-layer transformer. Off-the-shelf text encoder from CLIP is utilized to perform prompt ensembling to obtain textual label queries. CLIP image encoder is also used to distill image feature, which further improves the model’s recognition ability for unseen categories via image-text feature alignment.
+1. for tag generation- Instead of just using a simple decoder that generates tags, a separate CLIP based text encoder is also used to generate textual label queries and is embedded with tags embedding which facilitates generalization to previously unseen categories in training stage and generates semantically rich text of image. CLIP image encoder is also used to distill image feature, which further improves the model's recognition ability for unseen categories via image-text feature alignment.
 ![image](https://github.com/user-attachments/assets/313e8299-27e1-4ac7-b730-5a61725c488d)
 
 
