@@ -38,13 +38,3 @@ yolov3: dividing whole image into segments of fixed size then using various size
 * **Anchor boxes**- 3 default boxes per cell from 3 different layers (v3)
 * **loss function**- confidence_loss (binary cross entropy) + alpha*location_loss (squared error loss) (v3)
 
-# 4. Zero Shot Detection
-* **Paper**- 
-* **Repo**- https://github.com/openai/CLIP
-* **Methodology/technique**- 
-* **Architecture/base network**- 
-* **Dataset trained on**- 
-* **Input image size**- 
-* **Optimizer**- 
-* **Anchor boxes**- 
-* **loss function**- 
