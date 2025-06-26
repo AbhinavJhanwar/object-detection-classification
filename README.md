@@ -2,7 +2,6 @@ I have implemented following object/person detection models here namely-
 1) SSD
 2) FRCNN
 3) YOLO V7
-4) Zero Shot Detection
 
 # 1. SSD
 * **Paper**- https://arxiv.org/pdf/1512.02325.pdf
